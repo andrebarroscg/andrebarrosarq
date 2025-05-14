@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio de Arquitetura</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #e67e22;
+            --text-light: #ecf0f1;
+            --text-dark: #2c3e50;
+            --background-light: #f9f9f9;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .hero-section {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('modernismo.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .nav-active:after {
+            width: 100%;
+        }
+        
+        .section-heading {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        .section-heading:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background-color: var(--accent-color);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .project-item {
+            overflow: hidden;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+        
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(44, 62, 80, 0.9);
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: all 0.5s ease;
+            transform: translateY(20px);
+        }
+        
+        .project-item:hover .project-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .project-item img {
+            transition: all 0.5s ease;
+        }
+        
+        .project-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-bottom: 3px solid var(--accent-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            color: var(--accent-color);
+            transform: scale(1.2);
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--accent-color);
+        }
+        
+        .btn-outline {
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .contact-info-item {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-info-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-info-item:hover .contact-icon {
+            color: var(--accent-color);
+        }
+        
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #25D366;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+        
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Filtro de projetos */
+        .filter-button {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .filter-button.active, .filter-button:hover {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+        }
+        
+        /* Modal para visualização de projetos */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            overflow: auto;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            width: 80%;
+            max-width: 1200px;
+            margin: auto;
+            animation: modalFadeIn 0.5s;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--accent-color);
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Form animation */
+        .form-control {
+            border-bottom: 2px solid #ddd;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-bottom: 2px solid var(--accent-color);
+            box-shadow: none;
+        }
+        
+        /* Custom cursor */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: rgba(230, 126, 34, 0.5);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease;
+            display: none;
+        }
+        
+        /* Para telas menores */
+        @media (max-width: 768px) {
+            .navbar-links {
+                background-color: var(--primary-color);
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cursor personalizado -->
+    <div class="custom-cursor"></div>
+
+    <!-- Botão flutuante de WhatsApp -->
+    <a href="https://wa.me/+5583986254870" target="_blank" class="whatsapp-btn">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Menu de navegação -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white bg-opacity-95 shadow-md transition-all duration-500" id="navbar">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold flex items-center">
+                    <span class="text-gray-800">André</span>
+                    <span class="text-orange-500">Barros</span>
+                </a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link nav-active text-gray-700 hover:text-orange-500 transition">Home</a>
+                    <a href="#sobre" class="nav-link text-gray-700 hover:text-orange-500 transition">Sobre</a>
+                    <a href="#projetos" class="nav-link text-gray-700 hover:text-orange-500 transition">Projetos</a>
+                    <a href="#servicos" class="nav-link text-gray-700 hover:text-orange-500 transition">Serviços</a>
+                    <a href="#contato" class="nav-link text-gray-700 hover:text-orange-500 transition">Contato</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="focus:outline-none">
+                        <i class="fas fa-bars text-2xl text-gray-700"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Menu mobile -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 p-4 bg-white rounded-lg shadow-lg">
+                <div class="flex flex-col space-y-4">
+                    <a href="#home" class="nav-link text-gray-700 hover:text-orange-500 transition">Home</a>
+                    <a href="#sobre" class="nav-link text-gray-700 hover:text-orange-500 transition">Sobre</a>
+                    <a href="#projetos" class="nav-link text-gray-700 hover:text-orange-500 transition">Projetos</a>
+                    <a href="#servicos" class="nav-link text-gray-700 hover:text-orange-500 transition">Serviços</a>
+                    <a href="#contato" class="nav-link text-gray-700 hover:text-orange-500 transition">Contato</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Seção Hero -->
+    <section id="home" class="hero-section flex items-center justify-center text-white">
+        <div class="container mx-auto text-center px-4" data-aos="fade-up" data-aos-duration="1200">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">Transformando Ideias em Espaços Extraordinários</h1>
+            <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto">Criamos ambientes que inspiram, funcionam e encantam através de soluções arquitetônicas inovadoras e sustentáveis.</p>
+            <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
+                <a href="#projetos" class="btn-primary px-8 py-3 rounded-md font-medium text-white">Ver Projetos</a>
+                <a href="#contato" class="btn-outline px-8 py-3 rounded-md font-medium">Entre em Contato</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Sobre -->
+    <section id="sobre" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0" data-aos="fade-right">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1535957998253-26ae1ef29506?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Arquiteto" class="rounded-lg shadow-xl w-full max-w-md mx-auto">
+                        <div class="absolute -bottom-10 -right-10 bg-orange-500 text-white p-8 rounded-lg shadow-lg hidden md:block">
+                            <p class="text-lg font-semibold">+5 anos</p>
+                            <p>de experiência</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 md:pl-16" data-aos="fade-left" data-aos-delay="200">
+                    <h2 class="section-heading text-3xl md:text-4xl font-bold mb-8">Sobre o Arquiteto</h2>
+                    <p class="text-gray-700 mb-6 text-lg">Me chamo André Barro sou um arquiteto apaixonado por criar espaços que combinam estética, funcionalidade e sustentabilidade. Com formação em Arquitetura e Urbanismo e mais de 05 anos de experiência no mercado, desenvolvo projetos que transformam ambientes e impactam positivamente a vida das pessoas.</p>
+                    <p class="text-gray-700 mb-10 text-lg">Meu processo de trabalho é baseado na colaboração próxima com os clientes, entendendo suas necessidades e sonhos para criar soluções personalizadas que excedam suas expectativas. Cada projeto é uma oportunidade de inovar e trazer o melhor da arquitetura contemporânea, sempre respeitando o contexto e a cultura local.</p>
+                    <div class="grid grid-cols-2 gap-6 mb-10">
+                        <div>
+                            <h4 class="text-xl font-semibold mb-2">Visão</h4>
+                            <p class="text-gray-600">Criar espaços que inspiram e melhoram a qualidade de vida.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold mb-2">Missão</h4>
+                            <p class="text-gray-600">Transformar ideias em projetos excepcionais e sustentáveis.</p>
+                        </div>
+                    </div>
+                    <a href="#contato" class="btn-primary inline-block px-8 py-3 rounded-md font-medium text-white">Vamos Conversar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Projetos -->
+    <section id="projetos" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="section-heading text-3xl md:text-4xl font-bold mb-4 inline-block">Nossos Projetos</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg">Conheça alguns dos nossos trabalhos em diferentes áreas da arquitetura, do conceito à execução.</p>
+            </div>
+
+            <!-- Filtros de projeto -->
+            <div class="flex flex-wrap justify-center mb-12 gap-4" data-aos="fade-up" data-aos-delay="200">
+                <button class="filter-button active px-6 py-2 text-gray-700 font-medium" data-filter="all">Todos</button>
+                <button class="filter-button px-6 py-2 text-gray-700 font-medium" data-filter="residencial">Residencial</button>
+                <button class="filter-button px-6 py-2 text-gray-700 font-medium" data-filter="comercial">Comercial</button>
+                <button class="filter-button px-6 py-2 text-gray-700 font-medium" data-filter="interiores">Interiores</button>
+                <button class="filter-button px-6 py-2 text-gray-700 font-medium" data-filter="paisagismo">Paisagismo</button>
+            </div>
+
+            <!-- Grade de projetos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                <!-- Projeto 1 -->
+                <div class="project-item rounded-lg overflow-hidden shadow-lg cursor-pointer" data-aos="fade-up" data-category="residencial" onclick="openModal('Casa Moderna', 'Projeto residencial com linhas contemporâneas e amplos espaços integrados.', 'render casa 01.jpg')">
+                    <img src="render casa 01.jpg">
+                    <div class="project-overlay">
+                        <h3 class="text-white text-2xl font-bold mb-2">Casa Moderna</h3>
+                        <p class="text-gray-200 mb-4">Projeto Residencial</p>
+                        <span class="text-orange-500">
+                            <i class="fas fa-plus-circle text-2xl"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Projeto 2 -->
+                <div class="project-item rounded-lg overflow-hidden shadow-lg cursor-pointer" data-aos="fade-up" data-aos-delay="100" data-category="comercial" onclick="openModal('Centro Empresarial', 'Edifício comercial com conceito open space e certificação de sustentabilidade.', 'edificio.png')">
+                    <img src="edificio.png" alt="Projeto Comercial" class="w-full h-72 object-cover">
+                    <div class="project-overlay">
+                        <h3 class="text-white text-2xl font-bold mb-2">Centro Empresarial</h3>
+                        <p class="text-gray-200 mb-4">Projeto Comercial</p>
+                        <span class="text-orange-500">
+                            <i class="fas fa-plus-circle text-2xl"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Projeto 3 -->
+                <div class="project-item rounded-lg overflow-hidden shadow-lg cursor-pointer" data-aos="fade-up" data-aos-delay="200" data-category="interiores" onclick="openModal('Loft Contemporâneo', 'Design de interiores para loft urbano com mix de texturas e materiais naturais.', 'loft01.png')">
+                    <img src="loft01.png" alt="Design de Interiores" class="w-full h-72 object-cover">
+                    <div class="project-overlay">
+                        <h3 class="text-white text-2xl font-bold mb-2">Loft Contemporâneo</h3>
+                        <p class="text-gray-200 mb-4">Design de Interiores</p>
+                        <span class="text-orange-500">
+                            <i class="fas fa-plus-circle text-2xl"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Projeto 4 -->
+                <div class="project-item rounded-lg overflow-hidden shadow-lg cursor-pointer" data-aos="fade-up" data-aos-delay="300" data-category="paisagismo" onclick="openModal('Jardim Vertical', 'Projeto de paisagismo urbano com técnicas sustentáveis de jardinagem vertical.', 'jardim vertical.png')">
+                    <img src="jardim vertical.png" alt="Projeto de Paisagismo" class="w-full h-72 object-cover">
+                    <div class="project-overlay">
+                        <h3 class="text-white text-2xl font-bold mb-2">Jardim Vertical</h3>
+                        <p class="text-gray-200 mb-4">Paisagismo</p>
+                        <span class="text-orange-500">
+                            <i class="fas fa-plus-circle text-2xl"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Projeto 5 -->
+                <div class="project-item rounded-lg overflow-hidden shadow-lg cursor-pointer" data-aos="fade-up" data-aos-delay="400" data-category="residencial" onclick="openModal('Casa de Campo', 'Residência campestre que integra arquitetura contemporânea com elementos da natureza.', 'casa de campo.png')">
+                    <img src="casa de campo.png" alt="Casa de Campo" class="w-full h-72 object-cover">
+                    <div class="project-overlay">
+                        <h3 class="text-white text-2xl font-bold mb-2">Casa de Campo</h3>
+                        <p class="text-gray-200 mb-4">Residencial</p>
+                        <span class="text-orange-500">
+                            <i class="fas fa-plus-circle text-2xl"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Projeto 6 -->
+                <div class="project-item rounded-lg overflow-hidden shadow-lg cursor-pointer" data-aos="fade-up" data-aos-delay="500" data-category="comercial" onclick="openModal('Restaurante Minimalista', 'Design de espaço gastronômico com conceito minimalista e iluminação cenográfica.', 'restaurante 02.png')">
+                    <img src="restaurante 02.png" alt="Restaurante" class="w-full h-72 object-cover">
+                    <div class="project-overlay">
+                        <h3 class="text-white text-2xl font-bold mb-2">Restaurante Minimalista</h3>
+                        <p class="text-gray-200 mb-4">Comercial</p>
+                        <span class="text-orange-500">
+                            <i class="fas fa-plus-circle text-2xl"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal para visualização de projetos -->
+    <div class="modal" id="projectModal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="modal-content text-center p-8">
+            <img src="" alt="" id="modalImage" class="w-full max-h-[70vh] object-contain mb-6">
+            <h3 id="modalTitle" class="text-white text-2xl md:text-3xl font-bold mb-3"></h3>
+            <p id="modalDescription" class="text-gray-300 mb-6 text-lg"></p>
+            <a href="#contato" onclick="closeModal()" class="btn-primary inline-block px-8 py-3 rounded-md font-medium text-white">Solicite um projeto similar</a>
+        </div>
+    </div>
+
+    <!-- Seção Serviços -->
+    <section id="servicos" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="section-heading text-3xl md:text-4xl font-bold mb-4 inline-block">Nossos Serviços</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg">Oferecemos soluções completas em arquitetura e design para atender às suas necessidades específicas.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Serviço 1 -->
+                <div class="service-card bg-white rounded-lg p-8 shadow-lg" data-aos="fade-up">
+                    <div class="service-icon text-5xl text-gray-700 mb-6">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Projetos Residenciais</h3>
+                    <p class="text-gray-600 mb-6">Criamos casas, apartamentos e espaços residenciais que refletem a personalidade e o estilo de vida dos moradores, com soluções funcionais e estéticas.</p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Casas e Apartamentos</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Condomínios e Loteamentos</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Reformas e Ampliações</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Serviço 2 -->
+                <div class="service-card bg-white rounded-lg p-8 shadow-lg" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-icon text-5xl text-gray-700 mb-6">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Projetos Comerciais</h3>
+                    <p class="text-gray-600 mb-6">Desenvolvemos ambientes comerciais que fortalecem a identidade da marca, otimizam o espaço e proporcionam experiências memoráveis aos clientes.</p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Lojas e Showrooms</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Escritórios e Coworkings</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Restaurantes e Cafés</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Serviço 3 -->
+                <div class="service-card bg-white rounded-lg p-8 shadow-lg" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-icon text-5xl text-gray-700 mb-6">
+                        <i class="fas fa-couch"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Arquitetura de Interiores</h3>
+                    <p class="text-gray-600 mb-6">Transformamos ambientes internos com projetos personalizados que combinam estética, conforto e funcionalidade, criando espaços únicos.</p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Decoração e Styling</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Mobiliário Sob Medida</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Iluminação e Acabamentos</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Serviço 4 -->
+                <div class="service-card bg-white rounded-lg p-8 shadow-lg" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-icon text-5xl text-gray-700 mb-6">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Paisagismo</h3>
+                    <p class="text-gray-600 mb-6">Criamos jardins e áreas externas que harmonizam com a arquitetura e proporcionam conexão com a natureza em espaços urbanos.</p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Jardins Residenciais</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Terraços e Varandas</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Jardins Verticais</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Serviço 5 -->
+                <div class="service-card bg-white rounded-lg p-8 shadow-lg" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-icon text-5xl text-gray-700 mb-6">
+                        <i class="fas fa-drafting-compass"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Consultoria Técnica</h3>
+                    <p class="text-gray-600 mb-6">Oferecemos consultoria especializada em normas técnicas, legislação e soluções construtivas para projetos arquitetônicos.</p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Avaliação de Imóveis</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Viabilidade de Projetos</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Regularização de Edificações</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Serviço 6 -->
+                <div class="service-card bg-white rounded-lg p-8 shadow-lg" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-icon text-5xl text-gray-700 mb-6">
+                        <i class="fas fa-hard-hat"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Gestão de Obras</h3>
+                    <p class="text-gray-600 mb-6">Acompanhamos a execução do projeto para garantir que cada detalhe seja implementado conforme planejado, dentro do prazo e orçamento.</p>
+                    <ul class="text-gray-600 mb-6 space-y-2">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Cronograma e Orçamento</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Coordenação de Fornecedores</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-orange-500 mr-2"></i>
+                            <span>Fiscalização e Qualidade</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Contato -->
+    <section id="contato" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="section-heading text-3xl md:text-4xl font-bold mb-4 inline-block">Entre em Contato</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto text-lg">Estamos à disposição para transformar suas ideias em projetos excepcionais. Entre em contato e agende uma consulta.</p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-16">
+                <!-- Formulário de contato -->
+                <div class="lg:w-1/2" data-aos="fade-right">
+                    <form id="contactForm" class="bg-white p-8 rounded-lg shadow-lg">
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-700 font-medium mb-2">Nome Completo</label>
+                            <input type="text" id="name" class="form-control w-full px-4 py-3 bg-gray-50 border-0 rounded-md focus:outline-none" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-700 font-medium mb-2">E-mail</label>
+                            <input type="email" id="email" class="form-control w-full px-4 py-3 bg-gray-50 border-0 rounded-md focus:outline-none" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="phone" class="block text-gray-700 font-medium mb-2">Telefone</label>
+                            <input type="tel" id="phone" class="form-control w-full px-4 py-3 bg-gray-50 border-0 rounded-md focus:outline-none" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="service" class="block text-gray-700 font-medium mb-2">Serviço de Interesse</label>
+                            <select id="service" class="form-control w-full px-4 py-3 bg-gray-50 border-0 rounded-md focus:outline-none" required>
+                                <option value="" selected disabled>Selecione um serviço</option>
+                                <option value="residencial">Projeto Residencial</option>
+                                <option value="comercial">Projeto Comercial</option>
+                                <option value="interiores">Design de Interiores</option>
+                                <option value="paisagismo">Paisagismo</option>
+                                <option value="consultoria">Consultoria Técnica</option>
+                                <option value="obra">Gestão de Obra</option>
+                            </select>
+                        </div>
+                        <div class="mb-8">
+                            <label for="message" class="block text-gray-700 font-medium mb-2">Mensagem</label>
+                            <textarea id="message" rows="5" class="form-control w-full px-4 py-3 bg-gray-50 border-0 rounded-md focus:outline-none" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-3 rounded-md font-medium text-white">Enviar Mensagem</button>
+                    </form>
+                </div>
+
+                <!-- Informações de contato -->
+                <div class="lg:w-1/2" data-aos="fade-left">
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold mb-6">Informações de Contato</h3>
+                        <div class="space-y-6">
+                            <div class="contact-info-item flex items-start">
+                                <div class="contact-icon bg-orange-100 p-4 rounded-full mr-4">
+                                    <i class="fas fa-map-marker-alt text-orange-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-1">Endereço</h4>
+                                    <p class="text-gray-600">Av Manoel Tavares, 700, sala 203, Alto Branco - Campina Grande/PB - Brasil</p>
+                                </div>
+                            </div>
+                            <div class="contact-info-item flex items-start">
+                                <div class="contact-icon bg-orange-100 p-4 rounded-full mr-4">
+                                    <i class="fas fa-phone text-orange-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-1">Telefone</h4>
+                                    <p class="text-gray-600">(83) 98625-4870</p>
+                                </div>
+                            </div>
+                            <div class="contact-info-item flex items-start">
+                                <div class="contact-icon bg-orange-100 p-4 rounded-full mr-4">
+                                    <i class="fas fa-envelope text-orange-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-1">E-mail</h4>
+                                    <p class="text-gray-600">andrebarros.arquitetos@gmail.com</p>
+                                </div>
+                            </div>
+                            <div class="contact-info-item flex items-start">
+                                <div class="contact-icon bg-orange-100 p-4 rounded-full mr-4">
+                                    <i class="fas fa-clock text-orange-500 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-1">Horário de Atendimento</h4>
+                                    <p class="text-gray-600">Segunda a Sexta: 9h às 18h<br>Sábado: 9h às 13h</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6">Contato Rápido</h3>
+                        <p class="text-gray-600 mb-6">Clique nos botões abaixo para entrar em contato rapidamente ou nos acompanhar nas redes sociais.</p>
+                        <div class="flex gap-4 mb-8">
+                            <a href="https://wa.me/+5583986254870" target="_blank" class="bg-[#25D366] text-white p-4 rounded-full hover:bg-opacity-90 transition">
+                                <i class="fab fa-whatsapp text-xl"></i>
+                            </a>
+                            <a href="mailto:andrebarros.arquitetos@gmail.com" class="bg-gray-700 text-white p-4 rounded-full hover:bg-opacity-90 transition">
+                                <i class="far fa-envelope text-xl"></i>
+                            </a>
+                            <a href="tel:+5583986254870" class="bg-blue-600 text-white p-4 rounded-full hover:bg-opacity-90 transition">
+                                <i class="fas fa-phone text-xl"></i>
+                            </a>
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="#" target="_blank" class="bg-gray-200 text-gray-700 p-4 rounded-full hover:bg-gray-300 transition">
+                                <i class="fab fa-instagram text-xl"></i>
+                            </a>
+                            <a href="#" target="_blank" class="bg-gray-200 text-gray-700 p-4 rounded-full hover:bg-gray-300 transition">
+                                <i class="fab fa-facebook-f text-xl"></i>
+                            </a>
+                            <a href="#" target="_blank" class="bg-gray-200 text-gray-700 p-4 rounded-full hover:bg-gray-300 transition">
+                                <i class="fab fa-linkedin-in text-xl"></i>
+                            </a>
+                            <a href="#" target="_blank" class="bg-gray-200 text-gray-700 p-4 rounded-full hover:bg-gray-300 transition">
+                                <i class="fab fa-pinterest-p text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-8 md:mb-0">
+                    <h4 class="text-2xl font-bold mb-6">Andre Barros</h4>
+                    <p class="text-gray-400 max-w-sm">Transformando ideias em espaços extraordinários através da arquitetura inovadora e design personalizado.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h5 class="text-lg font-semibold mb-4">Links Rápidos</h5>
+                        <ul class="space-y-2">
+                            <li><a href="#home" class="text-gray-400 hover:text-orange-500 transition">Home</a></li>
+                            <li><a href="#sobre" class="text-gray-400 hover:text-orange-500 transition">Sobre</a></li>
+                            <li><a href="#projetos" class="text-gray-400 hover:text-orange-500 transition">Projetos</a></li>
+                            <li><a href="#servicos" class="text-gray-400 hover:text-orange-500 transition">Serviços</a></li>
+                            <li><a href="#contato" class="text-gray-400 hover:text-orange-500 transition">Contato</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="text-lg font-semibold mb-4">Serviços</h5>
+                        <ul class="space-y-2">
+                            <li><a href="#servicos" class="text-gray-400 hover:text-orange-500 transition">Projetos Residenciais</a></li>
+                            <li><a href="#servicos" class="text-gray-400 hover:text-orange-500 transition">Projetos Comerciais</a></li>
+                            <li><a href="#servicos" class="text-gray-400 hover:text-orange-500 transition">Design de Interiores</a></li>
+                            <li><a href="#servicos" class="text-gray-400 hover:text-orange-500 transition">Paisagismo</a></li>
+                            <li><a href="#servicos" class="text-gray-400 hover:text-orange-500 transition">Gestão de Obras</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="text-lg font-semibold mb-4">Contato</h5>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-orange-500 mt-1 mr-2"></i>
+                                <span class="text-gray-400">Av Manoel Tavares, 700, sala 203, Alto Branco<br>Campina Grande-PB</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-phone text-orange-500 mr-2"></i>
+                                <span class="text-gray-400">(83) 98625-4870</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-envelope text-orange-500 mr-2"></i>
+                                <span class="text-gray-400">andrebarros.arquitetos@gmail.com</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-gray-800 my-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 mb-4 md:mb-0">&copy; <span id="currentYear"></span> Andre Barros. Todos os direitos reservados.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-pinterest-p"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS Animation Library -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <!-- Main JavaScript -->
+    <script>
+        // Inicializar AOS (Animate on Scroll)
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Menu mobile
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+        
+        // Alternar classe ativa no menu de navegação
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('nav-active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('nav-active');
+                }
+            });
+            
+            // Navbar background change on scroll
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+            } else {
+                navbar.classList.remove('shadow-lg');
+            }
+        });
+
+        // Filtro de projetos
+        const filterButtons = document.querySelectorAll('.filter-button');
+        const projectItems = document.querySelectorAll('.project-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const filter = button.dataset.filter;
+                
+                // Adicionar classe ativa ao botão de filtro clicado
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Filtrar os projetos
+                projectItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'scale(1)';
+                        }, 100);
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.8)';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // Modal de projetos
+        function openModal(title, description, imageSrc) {
+            const modal = document.getElementById('projectModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalImage = document.getElementById('modalImage');
+            
+            modalTitle.textContent = title;
+            modalDescription.textContent = description;
+            modalImage.src = imageSrc;
+            modalImage.alt = title;
+            
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('projectModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Fechar modal ao clicar fora da imagem
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('projectModal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Validação do formulário de contato
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simulação de envio de formulário
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            
+            submitButton.disabled = true;
+            submitButton.textContent = 'Enviando...';
+            
+            setTimeout(() => {
+                alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+                this.reset();
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            }, 1500);
+        });
+
+        // Atualizar ano atual no footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Cursor personalizado
+        const cursor = document.querySelector('.custom-cursor');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.display = 'block';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.addEventListener('mouseout', () => {
+            cursor.style.display = 'none';
+        });
+
+        // Links e botões - efeito hover para cursor personalizado
+        const links = document.querySelectorAll('a, button, .project-item');
+        
+        links.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursor.style.backgroundColor = 'rgba(230, 126, 34, 0.2)';
+                cursor.style.border = '2px solid rgba(230, 126, 34, 0.8)';
+            });
+            
+            link.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.backgroundColor = 'rgba(230, 126, 34, 0.5)';
+                cursor.style.border = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
